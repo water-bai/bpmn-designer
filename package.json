@@ -21,20 +21,23 @@
     "build": "build-scripts build",
     "test": "build-scripts test",
     "prepublishOnly": "npm run build",
-    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
-    "eslint:fix": "npm run eslint -- --fix",
-    "stylelint": "stylelint \"**/*.{css,scss,less}\"",
-    "lint": "npm run eslint && npm run stylelint",
     "f2elint-scan": "f2elint scan",
     "f2elint-fix": "f2elint fix"
   },
   "keywords": [
-    "ice",
+    "typescript",
     "react",
+    "bpmnjs",
     "component"
   ],
   "dependencies": {
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.5.8",
+    "bpmn-js": "^8.8.2",
+    "diagram-js": "^7.5.0",
+    "diagram-js-minimap": "^2.0.4",
+    "ids": "^1.0.0",
+    "min-dash": "^3.8.0",
+    "tiny-svg": "^2.2.2"
   },
   "devDependencies": {
     "@iceworks/spec": "^1.0.0",
@@ -45,7 +48,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^7.0.0",
-    "f2elint": "^2.1.0",
+    "f2elint": "^1.2.0",
     "husky": "^7.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

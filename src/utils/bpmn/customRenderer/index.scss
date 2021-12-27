@@ -1,0 +1,40 @@
+
+.bpmn-editor-container {
+  // border-right: 1px solid #ccc;
+  // 样式覆盖
+  .bjs-powered-by {
+    display: none;
+  }
+
+  .djs-element.djs-shape {
+    // 活动样式
+    .djs-visual.halo-task-visual {
+      rect:first-child {
+        fill: #36415e !important;
+      }
+
+      .djs-label {
+        fill: var(--color-text1-4) !important;
+      }
+    }
+  }
+
+  .djs-element.djs-shape.hover, .djs-element.djs-shape.selected {
+    .djs-visual.halo-task-visual {
+      cursor: default;
+
+      > rect {
+        stroke: #004fff !important;
+      }
+
+      rect:first-child {
+        fill: #004fff !important;
+      }
+
+
+      .djs-label {
+        fill: var(--color-brand1-6) !important;
+      }
+    }
+  }
+}
