@@ -6,7 +6,6 @@
     "module": "esnext",
     "target": "es6",
     "jsx": "react",
-    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "lib": ["es6", "dom"],
     "sourceMap": true,
@@ -14,9 +13,16 @@
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noImplicitAny": true,
-    "skipLibCheck": true
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src/*.ts", "src/*.tsx", "@types"],
+  "include": ["src", "@types"],
   "exclude": ["node_modules", "build", "public"]
 }

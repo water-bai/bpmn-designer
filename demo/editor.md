@@ -11,10 +11,22 @@ import ReactDOM from 'react-dom';
 import { BpmnEditor } from '@white/bpmn-designer';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.bpmn = React.createRef();
+
+    this.state = {};
+  }
+  handleExportXML = async () => {
+    const data = await this.bpmn?.current?.exportXML();
+    console.log(data?.xml);
+  }
   render() {
     return (
       <div>
-        <BpmnEditor />
+        <button onClick={this.handleExportXML}>导出xml</button>
+        <BpmnEditor ref={this.bpmn} />
       </div>
     );
   }
