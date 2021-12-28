@@ -1,5 +1,5 @@
 {
-  "name": "@white/bpmn-designer",
+  "name": "white-bpmn-designer",
   "version": "0.1.0",
   "description": "流程设计器",
   "files": [
@@ -71,6 +71,5 @@
       "commit-msg": "f2elint commit-msg-scan"
     }
   },
-  "license": "MIT",
-  "homepage": "https://unpkg.com/@white/bpmn-designer@0.1.0/build/index.html"
+  "license": "MIT"
 }

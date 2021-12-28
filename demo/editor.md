@@ -8,7 +8,7 @@ order: 1
 ```jsx
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BpmnEditor } from '@white/bpmn-designer';
+import { BpmnEditor } from 'white-bpmn-designer';
 
 class App extends Component {
   constructor(props) {
