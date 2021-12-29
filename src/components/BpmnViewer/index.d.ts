@@ -1,5 +1,5 @@
 export interface IProps {
-  value: string;
+  value?: string;
   height?: number;
   center?: boolean;
   useMiniMap?: boolean;

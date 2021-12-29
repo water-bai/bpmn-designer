@@ -6,7 +6,7 @@ export interface BizComponent {
 }
 
 export function configure(
-  config: object,
+  // config: object,
   componentName: string,
   displayName?: string
 ) {
@@ -15,7 +15,7 @@ export function configure(
     BizTarget.flag = 'biz';
     BizTarget.componentName = componentName;
     BizTarget.displayName = displayName || componentName;
-    BizTarget.configure = config;
+    // BizTarget.configure = config;
 
     return BizTarget;
   };

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 // import minimapModule from 'diagram-js-minimap';
+import { configure } from '../../utils';
 import customViewerModule from '../../utils/bpmn/customRenderer';
 import HaloElementFactoryModule from '../../utils/bpmn/elementFactory';
 import CustomPalette from '../../utils/bpmn/customPalette';
@@ -83,4 +84,4 @@ class BpmnEditor extends React.Component<IProps, IState> {
   }
 }
 
-export default BpmnEditor;
+export default configure('BpmnEditor')(BpmnEditor);

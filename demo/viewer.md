@@ -77,4 +77,7 @@ ReactDOM.render((
 ## API
 | 参数名 | 说明 | 必填 | 类型 | 默认值 | 备注 |
 | ------ | ---- | ---- | ---- | ------ | ---- |
-|        |      |      |      |        |      |
+|   value     |   流程图数据   |   否   |   xml   |    -    |   -   |
+|   useMiniMap     |   是否使用小地图   |   否   |   boolean   |   false     |   -   |
+|   center     |   是否居中展示   |   否   |   boolean   |   true     |   -   |
+|   height     |   流程图高度   |   否   |   number   |   600     |   -   |

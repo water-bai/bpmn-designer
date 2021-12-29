@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { configure } from '../../utils';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 import ContextPadModule from 'bpmn-js/lib/features/context-pad';
@@ -83,10 +84,7 @@ class BpmnViewer extends React.Component<IProps, IState> {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.value !== this.props.value ||
-      prevProps?.L4Infos !== this?.props?.L4Infos
-    ) {
+    if (prevProps.value !== this.props.value) {
       this.renderBpmn(this.props.value);
     }
   }
@@ -96,11 +94,11 @@ class BpmnViewer extends React.Component<IProps, IState> {
     const pos = this.getReplaceMenuPosition(e?.element);
     console.log('eleClick', pos);
   }
-  eleChange() {
-    console.log('eleChange');
+  eleChange(e: any) {
+    console.log('eleChange', e);
   }
-  eleHover() {
-    console.log('eleHover');
+  eleHover(e: any) {
+    console.log('eleHover', e);
   }
 
   // 监听任务
@@ -162,4 +160,4 @@ class BpmnViewer extends React.Component<IProps, IState> {
   }
 }
 
-export default BpmnViewer;
+export default configure('BpmnViewer')(BpmnViewer);
