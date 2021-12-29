@@ -2,7 +2,7 @@ export interface BizComponent {
   flag: 'biz';
   componentName: string;
   displayName: string;
-  configure: object;
+  // configure: object;
 }
 
 export function configure(

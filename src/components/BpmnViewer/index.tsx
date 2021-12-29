@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { configure } from '../../utils';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 import ContextPadModule from 'bpmn-js/lib/features/context-pad';
@@ -160,4 +159,4 @@ class BpmnViewer extends React.Component<IProps, IState> {
   }
 }
 
-export default configure('BpmnViewer')(BpmnViewer);
+export default BpmnViewer;
