@@ -9,9 +9,7 @@ import { newDiagram } from './default';
 import { IProps, IState } from './index.d';
 import './index.scss';
 
-const { Component, createRef } = React;
-
-class BpmnEditor extends Component<IProps, IState> {
+class BpmnEditor extends React.Component<IProps, IState> {
   static displayName = 'BpmnEditor';
 
   static defaultProps = {
@@ -19,7 +17,7 @@ class BpmnEditor extends Component<IProps, IState> {
     height: 600,
     center: true,
   };
-  containerRef = createRef<HTMLDivElement>();
+  containerRef = React.createRef<HTMLDivElement>();
   bpmnModeler: any = null;
   constructor(props: IProps) {
     super(props);

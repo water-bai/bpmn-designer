@@ -71,5 +71,6 @@
       "commit-msg": "f2elint commit-msg-scan"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://unpkg.com/white-bpmn-designer@0.1.0/build/index.html"
 }
