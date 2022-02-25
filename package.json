@@ -49,5 +49,9 @@
       "commit-msg": "f2elint commit-msg-scan"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baikaishui01/bpmn-designer.git"
+  },
   "homepage": "https://unpkg.com/white-bpmn-designer@0.1.5/build/index.html"
 }
