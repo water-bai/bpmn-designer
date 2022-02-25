@@ -1,6 +1,6 @@
 {
   "name": "white-bpmn-designer",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "基于bpmn2.0的流程设计器",
   "files": [
     "demo/",
@@ -21,7 +21,10 @@
     "bpmnjs",
     "react"
   ],
-  "author": "白开水",
+  "author": {
+    "name": "白开水",
+    "email": "it_baikaishui@163.com"
+  },
   "license": "ISC",
   "dependencies": {
     "bpmn-js": "^8.8.2",
@@ -53,5 +56,5 @@
     "type": "git",
     "url": "https://github.com/baikaishui01/bpmn-designer.git"
   },
-  "homepage": "https://unpkg.com/white-bpmn-designer@0.1.5/build/index.html"
+  "homepage": "https://unpkg.com/white-bpmn-designer@0.1.6/build/index.html"
 }
