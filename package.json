@@ -1,7 +1,7 @@
 {
   "name": "white-bpmn-designer",
-  "version": "0.1.4",
-  "description": "流程设计器",
+  "version": "0.1.5",
+  "description": "基于bpmn2.0的流程设计器",
   "files": [
     "demo/",
     "es/",
@@ -10,28 +10,20 @@
   ],
   "main": "lib/index.js",
   "module": "es/index.js",
-  "sideEffects": [
-    "dist/*",
-    "*.scss",
-    "*.less",
-    "*.css"
-  ],
   "scripts": {
     "start": "build-scripts start",
     "build": "build-scripts build",
-    "test": "build-scripts test",
     "prepublishOnly": "npm run build",
     "f2elint-scan": "f2elint scan",
     "f2elint-fix": "f2elint fix"
   },
   "keywords": [
-    "typescript",
-    "react",
     "bpmnjs",
-    "component"
+    "react"
   ],
+  "author": "白开水",
+  "license": "ISC",
   "dependencies": {
-    "prop-types": "^15.5.8",
     "bpmn-js": "^8.8.2",
     "diagram-js": "^7.5.0",
     "diagram-js-minimap": "^2.0.4",
@@ -40,30 +32,16 @@
     "tiny-svg": "^2.2.2"
   },
   "devDependencies": {
-    "@iceworks/spec": "^1.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
     "build-plugin-component": "^1.0.0",
-    "build-scripts": "^1.1.1",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "^7.0.0",
-    "f2elint": "^1.2.0",
-    "husky": "^7.0.4",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "stylelint": "^13.7.2"
+    "build-scripts": "^1.2.1",
+    "f2elint": "^2.2.0"
   },
   "peerDependencies": {
     "react": "^16 || ^17"
-  },
-  "componentConfig": {
-    "name": "BpmnEditor",
-    "title": "BpmnEditor",
-    "category": "Information"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "husky": {
     "hooks": {
@@ -71,6 +49,5 @@
       "commit-msg": "f2elint commit-msg-scan"
     }
   },
-  "license": "MIT",
-  "homepage": "https://unpkg.com/white-bpmn-designer@0.1.3/build/index.html"
+  "homepage": "https://unpkg.com/white-bpmn-designer@0.1.5/build/index.html"
 }

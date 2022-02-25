@@ -1,14 +1,13 @@
-@import '../../utils/bpmn/customRenderer/index.scss';
+@import '../../customModules//customRenderer/index.scss';
 @import './css/diagram-js.css';
 // bpmn-embedded.css 里有 svg 的加载，这和组件的 svg icon 冲突了
 @import './css/bpmn-font/css/bpmn-embedded.css';
 @import './css/minimap.css';
 // @import '~diagram-js-minimap/assets/diagram-js-minimap.css';
 
-
-
 .bpmn-editor-container {
   width: 100%;
   height: 100%;
+  border: 1px solid #eee;
   position: relative;
 }

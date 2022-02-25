@@ -8,6 +8,6 @@ export default function customTranslate(template, replacements) {
 
   // Replace
   return template.replace(/{([^}]+)}/g, (_, key) => {
-    return replacements[key] || '{' + key + '}';
+    return replacements[key] || `{${key}}`;
   });
 }

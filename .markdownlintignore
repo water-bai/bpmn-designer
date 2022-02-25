@@ -4,7 +4,4 @@ dist/
 coverage/
 es/
 lib/
-**/*.min.css
-**/*-min.css
-**/*.bundle.css
 

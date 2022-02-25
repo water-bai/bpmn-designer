@@ -1,5 +1,5 @@
 ---
-title: Viewer
+title: BpmnViewer
 order: 1
 ---
 
@@ -48,7 +48,8 @@ const initXml = `
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn2:definitions>
-`
+`;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -56,28 +57,39 @@ class App extends Component {
     this.bpmn = React.createRef();
 
     this.state = {
-      value: initXml
+      value: initXml,
     };
+  }
+  click(e) {
+    console.log('click', e);
+  }
+  hover(e) {
+    console.log('hover', e);
+  }
+  changed(e) {
+    console.log('changed', e);
   }
   render() {
     const { value } = this.state;
     return (
       <div>
-        <BpmnViewer ref={this.bpmn} value={value} />
+        <BpmnViewer elementClick={this.click} ref={this.bpmn} value={value} />
       </div>
     );
   }
 }
 
-ReactDOM.render((
-  <App />
-), mountNode);
+ReactDOM.render(<App />, mountNode);
 ```
 
 ## API
-| 参数名 | 说明 | 必填 | 类型 | 默认值 | 备注 |
-| ------ | ---- | ---- | ---- | ------ | ---- |
-|   value     |   流程图数据   |   否   |   xml   |    -    |   -   |
-|   useMiniMap     |   是否使用小地图   |   否   |   boolean   |   false     |   -   |
-|   center     |   是否居中展示   |   否   |   boolean   |   true     |   -   |
-|   height     |   流程图高度   |   否   |   number   |   600     |   -   |
+
+| 参数名         | 说明             | 必填 | 类型     | 默认值 | 备注 |
+| -------------- | ---------------- | ---- | -------- | ------ | ---- |
+| value          | 流程图数据       | 否   | xml      | -      | -    |
+| useMiniMap     | 是否使用小地图   | 否   | boolean  | false  | -    |
+| center         | 是否居中展示     | 否   | boolean  | true   | -    |
+| height         | 流程图高度       | 否   | number   | 600    | -    |
+| elementClick   | 节点点击事件     | 否   | function | -      | -    |
+| elementHover   | 节点 hover 事件  | 否   | function | -      | -    |
+| elementChanged | 节点信息改变事件 | 否   | function | -      | -    |

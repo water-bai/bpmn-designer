@@ -12,7 +12,7 @@ export default class HaloElementFactory extends BpmnElementFactory {
 
   _getDefaultSize(semantic) {
     if (is(semantic, 'bpmn:ServiceTask')) {
-      return { width: 160, height: 375 };
+      return { width: 100, height: 50 };
     }
 
     if (is(semantic, 'bpmn:Task')) {

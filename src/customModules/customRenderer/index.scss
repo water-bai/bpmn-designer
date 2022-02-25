@@ -1,5 +1,5 @@
-
-.bpmn-editor-container {
+.bpmn-editor-container,
+.bpmn-viewer-container {
   // border-right: 1px solid #ccc;
   // 样式覆盖
   .bjs-powered-by {
@@ -19,7 +19,8 @@
     }
   }
 
-  .djs-element.djs-shape.hover, .djs-element.djs-shape.selected {
+  .djs-element.djs-shape.hover,
+  .djs-element.djs-shape.selected {
     .djs-visual.halo-task-visual {
       cursor: default;
 
@@ -30,7 +31,6 @@
       rect:first-child {
         fill: #004fff !important;
       }
-
 
       .djs-label {
         fill: var(--color-brand1-6) !important;

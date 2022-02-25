@@ -56,7 +56,6 @@ export default class CustomRenderer extends BaseRenderer {
   canRender(element) {
     // only render tasks (ignore labels)
     const result = isAny(element, CUSTOM_TYPES) && !element.labelTarget;
-    // console.log('canRender type', element.type, ', id', element.id, ', result', result);
     return result;
   }
 
@@ -65,24 +64,23 @@ export default class CustomRenderer extends BaseRenderer {
   }
 
   drawShape(parentNode, element) {
-    // console.log('draw shape type ', element.type, ', id ', element.id);
-    if (is(element, 'bpmn:ServiceTask')) {
-      return this.drawServiceTask(parentNode, element);
+    if (is(element, 'bpmn:ServiceTask') && element?.businessObject?.$attrs?.isPage === 'true') {
+      return this.drawPageTask(parentNode, element);
+    } else if (is(element, 'bpmn:ServiceTask')) {
+      svgClasses(parentNode).add('halo-service-task-visual');
     }
 
     // Task element
-    if (is(element, 'bpmn:Task')) {
+    if (is(element, 'bpmn:Task') && element?.type === 'bpmn:Task') {
       svgClasses(parentNode).add('halo-task-visual');
       return this.drawTask(parentNode, element);
     }
 
-    // Task element
     if (is(element, 'bpmn:Participant')) {
       svgClasses(parentNode).add('halo--participant-visual');
       return this.drawParticipant(parentNode, element);
     }
 
-    // Task element
     if (is(element, 'bpmn:Lane')) {
       svgClasses(parentNode).add('halo--lane-visual');
       return this.drawLane(parentNode, element);
@@ -91,8 +89,6 @@ export default class CustomRenderer extends BaseRenderer {
   }
 
   drawConnection(parentNode, element) {
-    // console.log('draw connection type ', element.type, ', id ', element.id);
-    // SequenceFlow element
     if (is(element, 'bpmn:SequenceFlow')) {
       return this.drawSequenceFlow(parentNode, element);
     }
@@ -101,7 +97,7 @@ export default class CustomRenderer extends BaseRenderer {
   }
 
   // custom draw
-  drawServiceTask(parentNode, element) {
+  drawPageTask(parentNode, element) {
     const pageInfo = this.config?.getPageInfo?.() || {};
     const { pageName, pageUrl } = pageInfo || {};
     const url = element?.businessObject?.$attrs?.url;
@@ -113,9 +109,7 @@ export default class CustomRenderer extends BaseRenderer {
       href: pageUrl || url,
     });
 
-    const text = this.textRenderer.createText(
-      pageName || element?.businessObject?.name || ''
-    );
+    const text = this.textRenderer.createText(pageName || element?.businessObject?.name || '');
 
     svgAppend(parentNode, text);
     svgAppend(parentNode, page);
@@ -139,14 +133,14 @@ export default class CustomRenderer extends BaseRenderer {
       element.width,
       element.height,
       TASK_BORDER_RADIUS,
-      attrs
+      attrs,
     );
     this.drawRect(
       parentNode,
       element.width,
       element.height - TASK_OFFSET_Y,
       TASK_BORDER_RADIUS,
-      attrs
+      attrs,
     );
 
     this.renderEmbeddedLabel(parentNode, element, 'center-middle');
@@ -193,10 +187,7 @@ export default class CustomRenderer extends BaseRenderer {
       source = element.source.businessObject;
 
       // conditional flow marker
-      if (
-        sequenceFlow.conditionExpression &&
-        source.$instanceOf('bpmn:Activity')
-      ) {
+      if (sequenceFlow.conditionExpression && source.$instanceOf('bpmn:Activity')) {
         svgAttr(path, {
           markerStart: this.marker('conditional-flow-marker', fill, stroke),
         });
@@ -205,16 +196,11 @@ export default class CustomRenderer extends BaseRenderer {
       // default marker
       if (
         source.default &&
-        (source.$instanceOf('bpmn:Gateway') ||
-          source.$instanceOf('bpmn:Activity')) &&
+        (source.$instanceOf('bpmn:Gateway') || source.$instanceOf('bpmn:Activity')) &&
         source.default === sequenceFlow
       ) {
         svgAttr(path, {
-          markerStart: this.marker(
-            'conditional-default-flow-marker',
-            fill,
-            stroke
-          ),
+          markerStart: this.marker('conditional-default-flow-marker', fill, stroke),
         });
       }
     }
@@ -243,8 +229,8 @@ export default class CustomRenderer extends BaseRenderer {
           fillOpacity: HIGH_FILL_OPACITY,
           stroke: getStrokeColor(element, defaultStrokeColor),
         },
-        attrs
-      )
+        attrs,
+      ),
     );
 
     const semantic = getSemantic(element);
@@ -276,7 +262,7 @@ export default class CustomRenderer extends BaseRenderer {
         strokeLinecap: 'round',
         strokeDasharray: 'none',
       },
-      options.attrs
+      options.attrs,
     );
 
     const ref = options.ref || { x: 0, y: 0 };
@@ -490,7 +476,7 @@ export default class CustomRenderer extends BaseRenderer {
           width: 100,
         },
       },
-      options
+      options,
     );
 
     const text = this.textRenderer.createText(label || '', options);
@@ -543,8 +529,7 @@ export default class CustomRenderer extends BaseRenderer {
   attachTaskMarkers(parentGfx, element, attrs, taskMarkers) {
     const obj = getSemantic(element);
 
-    const subprocess =
-      taskMarkers && taskMarkers.indexOf('SubProcessMarker') !== -1;
+    const subprocess = taskMarkers && taskMarkers.indexOf('SubProcessMarker') !== -1;
     let position;
 
     if (subprocess) {
@@ -578,8 +563,7 @@ export default class CustomRenderer extends BaseRenderer {
     }
 
     const { loopCharacteristics } = obj;
-    const isSequential =
-      loopCharacteristics && loopCharacteristics.isSequential;
+    const isSequential = loopCharacteristics && loopCharacteristics.isSequential;
 
     if (loopCharacteristics) {
       if (isSequential === undefined) {
@@ -597,48 +581,13 @@ export default class CustomRenderer extends BaseRenderer {
   }
 
   attachIcons(parentGfx, element) {
-    const { hasUI, hasAI } = element.businessObject?.$attrs || {};
-    const eleIcons = this?.config?.getElementIcons?.(element);
-
+    const eleIcons = this.config?.getElementIcons?.(element);
     eleIcons?.forEach((item) => {
       svgClasses(parentGfx?.parentNode).add('element-icon');
       const customInactiveIcon = svgCreate('image', item);
       svgAppend(parentGfx, customInactiveIcon);
     });
-
-    // UI标记
-    if (hasUI === 'true') {
-      const uiIcon = svgCreate('image', {
-        x: element.width - 11,
-        y: -7,
-        width: 22,
-        height: 15,
-        href: 'https://img.alicdn.com/tfs/TB1gGi0plBh1e4jSZFhXXcC9VXa-50-34.png',
-      });
-
-      svgAppend(parentGfx, uiIcon);
-    }
-    // AI标记
-    if (hasAI === 'true') {
-      const offsetX = hasUI === 'true' ? 22 + 11 : 11;
-      const aiIcon = svgCreate('image', {
-        x: element.width - offsetX,
-        y: -7,
-        width: 22,
-        height: 15,
-        href: 'https://img.alicdn.com/tfs/TB1t09LZQY2gK0jSZFgXXc5OFXa-50-34.png',
-      });
-
-      svgAppend(parentGfx, aiIcon);
-    }
   }
 }
 
-CustomRenderer.$inject = [
-  'config',
-  'eventBus',
-  'canvas',
-  'styles',
-  'bpmnRenderer',
-  'textRenderer',
-];
+CustomRenderer.$inject = ['config', 'eventBus', 'canvas', 'styles', 'bpmnRenderer', 'textRenderer'];

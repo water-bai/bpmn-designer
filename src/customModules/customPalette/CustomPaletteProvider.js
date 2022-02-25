@@ -1,24 +1,24 @@
-// import Cat from '../cat';
-
-/**
- * A provider for quick service task production
- */
-export default function CustomPaletteProvider(palette, create, elementFactory) {
+export default function CustomPaletteProvider(palette, create, elementFactory, modeling) {
   this._create = create;
   this._elementFactory = elementFactory;
-
+  this._modeling = modeling;
   palette.registerProvider(this);
 }
 
-CustomPaletteProvider.$inject = ['palette', 'create', 'elementFactory'];
+CustomPaletteProvider.$inject = ['palette', 'create', 'elementFactory', 'modeling'];
 
 CustomPaletteProvider.prototype.getPaletteEntries = function () {
   const elementFactory = this._elementFactory;
   const create = this._create;
+  const modeling = this._modeling;
 
   function startCreate(event) {
-    const serviceTask = elementFactory.create('shape', { type: 'bpmn:ServiceTask' });
-
+    const serviceTask = elementFactory.create('shape', {
+      type: 'bpmn:ServiceTask',
+      width: 160,
+      height: 375,
+    });
+    modeling.updateProperties(serviceTask, { isPage: 'true' });
     create.start(event, serviceTask);
   }
 

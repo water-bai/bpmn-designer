@@ -1,19 +1,13 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
-import ModelingModule from 'bpmn-js/lib/features/modeling';
-import ContextPadModule from 'bpmn-js/lib/features/context-pad';
-import customViewerModule from '@/utils/bpmn/customRenderer';
 import minimapModule from 'diagram-js-minimap';
-import { IProps, IState } from './index.d';
+import customRenderer from '@/customModules/customRenderer';
+import { getListenEvents } from '@/utils';
+import { ListenEvent } from '@/common';
+import { IBpmnViewerProps, IBpmnViewerState } from './interface';
 import './index.scss';
 
-// 导入ModelingModule，方便使用bpmnjs自带的方法获取点击的节点位置
-NavigatedViewer.prototype._modelingModules = [ModelingModule];
-NavigatedViewer.prototype._modules = NavigatedViewer.prototype._modules.concat(
-  NavigatedViewer.prototype._modelingModules
-);
-
-class BpmnViewer extends React.Component<IProps, IState> {
+class BpmnViewer extends Component<IBpmnViewerProps, IBpmnViewerState> {
   static displayName = 'BpmnViewer';
 
   // 组件属性
@@ -27,7 +21,7 @@ class BpmnViewer extends React.Component<IProps, IState> {
   containerRef = React.createRef<HTMLDivElement>();
   bpmnViewer: any = null;
 
-  constructor(props: IProps) {
+  constructor(props: IBpmnViewerProps) {
     super(props);
 
     this.state = {};
@@ -38,7 +32,7 @@ class BpmnViewer extends React.Component<IProps, IState> {
 
   componentDidMount() {
     const { height, useMiniMap } = this.props;
-    const additionalModules = [customViewerModule, ContextPadModule];
+    const additionalModules = [customRenderer];
     if (useMiniMap) {
       additionalModules.push(minimapModule);
     }
@@ -57,30 +51,6 @@ class BpmnViewer extends React.Component<IProps, IState> {
     this.addEventBusListener();
     this.renderBpmn(this.props.value);
   }
-  // 获取弹层位置信息
-  getReplaceMenuPosition(element: any) {
-    const OFFSET_X = 10;
-    const OFFSET_Y = 10;
-
-    const canvas = this.bpmnViewer.get('canvas');
-    const contextPad = this.bpmnViewer.get('contextPad');
-
-    const diagramContainer = canvas.getContainer();
-    const pad = contextPad.getPad(element).html;
-
-    const diagramRect = diagramContainer.getBoundingClientRect();
-    const padRect = pad.getBoundingClientRect();
-
-    const top = padRect.top - diagramRect.top;
-    const left = padRect.left - diagramRect.left;
-
-    const pos = {
-      left: left - element?.width - OFFSET_X,
-      top: top + element?.height + OFFSET_Y,
-    };
-
-    return pos;
-  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.value !== this.props.value) {
@@ -88,38 +58,16 @@ class BpmnViewer extends React.Component<IProps, IState> {
     }
   }
 
-  // 任务事件
-  eleClick(e: any) {
-    const pos = this.getReplaceMenuPosition(e?.element);
-    console.log('eleClick', pos);
-  }
-  eleChange(e: any) {
-    console.log('eleChange', e);
-  }
-  eleHover(e: any) {
-    console.log('eleHover', e);
-  }
-
-  // 监听任务
+  // 监听节点事件
   addEventBusListener() {
-    const eventBus = this.bpmnViewer.get('eventBus'); // 需要使用eventBus
-    const eventTypes = ['element.click']; // 需要监听的事件集合
+    const eventBus = this.bpmnViewer.get('eventBus');
 
-    eventTypes.forEach((eventType) => {
-      eventBus.on(eventType, (e: any) => {
-        switch (eventType) {
-          case 'element.click':
-            this.eleClick(e);
-            break;
-          case 'element.changed':
-            this.eleChange(e);
-            break;
-          case 'element.hover':
-            this.eleHover(e);
-            break;
-          default:
-            break;
-        }
+    // 根据绑定的element事件获取监听的事件类型
+    const listenEvents: ListenEvent[] = getListenEvents(this.props);
+
+    listenEvents.forEach((event: ListenEvent) => {
+      eventBus.on(event.type, (e) => {
+        event?.action(e);
       });
     });
   }
@@ -129,31 +77,32 @@ class BpmnViewer extends React.Component<IProps, IState> {
     const { center } = this.props;
     this.bpmnViewer.get('canvas').zoom('fit-viewport', center ? 'auto' : '');
   }
-
+  // 缩小
   zoomIn() {
     this.bpmnViewer.get('zoomScroll').stepZoom(-1);
   }
-
+  // 放大
   zoomOut() {
     this.bpmnViewer.get('zoomScroll').stepZoom(1);
   }
-
-  getBpmnViewer() {
-    return this.bpmnViewer;
+  // 导出
+  async exportXML() {
+    return this.bpmnViewer.saveXML({ format: true });
   }
 
   async renderBpmn(content: any) {
-    if (content) {
-      // 异常如何处理？
+    try {
       await this.bpmnViewer?.importXML(content);
       this.reset();
+    } catch (error) {
+      console.log(error);
     }
   }
 
   render() {
     return (
-      <div className='designer-container-viewer'>
-        <div className='epoch-halo-bpmn-container' ref={this.containerRef} />
+      <div className="bpmn-viewer-container">
+        <div className="bpmn-container" ref={this.containerRef} />
       </div>
     );
   }
